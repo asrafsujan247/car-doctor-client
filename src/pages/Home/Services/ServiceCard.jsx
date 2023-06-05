@@ -1,3 +1,5 @@
+import { HiArrowRight } from "react-icons/hi2";
+
 const ServiceCard = ({ service }) => {
   const { title, img, price } = service;
   return (
@@ -7,11 +9,13 @@ const ServiceCard = ({ service }) => {
       </figure>
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
-        <p className="text-xl text-orange-600 font-semibold">
-          Price : ${price}
-        </p>
-        <div className="card-actions">
-          <button className="btn btn-primary">Buy Now</button>
+        <div className="flex justify-between items-center">
+          <p className="text-xl text-orange-600 font-semibold">
+            Price : ${price}
+          </p>
+          <button className="btn btn-circle bg-gray-100">
+            <HiArrowRight className="text-xl text-orange-600"></HiArrowRight>
+          </button>
         </div>
       </div>
     </div>
