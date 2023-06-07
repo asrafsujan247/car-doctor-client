@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const Checkout = () => {
   const { user } = useContext(AuthContext);
@@ -38,7 +39,11 @@ const Checkout = () => {
       .then((data) => {
         console.log(data);
         if (data.insertedId) {
-          alert("Service booked successfully");
+          Swal.fire({
+            icon: "success",
+            title: "Succuss",
+            text: "Service booked successfully",
+          });
         }
       })
       .catch((err) => {
