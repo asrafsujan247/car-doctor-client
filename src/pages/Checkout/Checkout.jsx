@@ -62,6 +62,7 @@ const Checkout = () => {
               name="name"
               defaultValue={user?.displayName}
               placeholder="name"
+              required
               className="input input-bordered"
             />
           </div>
@@ -69,7 +70,12 @@ const Checkout = () => {
             <label className="label">
               <span className="label-text">Date</span>
             </label>
-            <input type="date" name="date" className="input input-bordered" />
+            <input
+              type="date"
+              name="date"
+              className="input input-bordered"
+              required
+            />
           </div>
           <div className="form-control">
             <label className="label">
