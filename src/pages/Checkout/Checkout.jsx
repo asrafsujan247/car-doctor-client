@@ -6,7 +6,7 @@ const Checkout = () => {
   const { user } = useContext(AuthContext);
 
   const service = useLoaderData();
-  const { _id, title, price } = service;
+  const { _id, title, price, img } = service;
 
   const handleCheckoutService = (event) => {
     event.preventDefault();
@@ -19,11 +19,31 @@ const Checkout = () => {
     const order = {
       customerName: name,
       email,
+      img,
       date,
-      service: _id,
+      service: title,
+      service_id: _id,
       price: price,
     };
     console.log(order);
+
+    fetch("http://localhost:5000/bookings", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(order),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          alert("Service booked successfully");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
