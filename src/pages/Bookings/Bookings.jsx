@@ -16,7 +16,7 @@ const Bookings = () => {
         setBookings(data);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [url]);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -51,6 +51,46 @@ const Bookings = () => {
     });
   };
 
+  const handleBookingConfirm = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Confirm it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/bookings/${id}`, {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ status: "confirm" }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.modifiedCount > 0) {
+              Swal.fire(
+                "Confirmed!",
+                "Your booking has been confirmed.",
+                "success"
+              );
+              const remaining = bookings.filter(
+                (booking) => booking._id !== id
+              );
+              const updated = bookings.find((booking) => booking._id === id);
+              updated.status = "confirm";
+              const newBookings = [updated, ...remaining];
+              setBookings(newBookings);
+            }
+          });
+      }
+    });
+  };
+
   return (
     <div>
       <h2 className="text-4xl text-center">Bookings : {bookings.length}</h2>
@@ -73,6 +113,7 @@ const Bookings = () => {
                 key={booking._id}
                 booking={booking}
                 handleDelete={handleDelete}
+                handleBookingConfirm={handleBookingConfirm}
               ></BookingRow>
             ))}
           </tbody>
